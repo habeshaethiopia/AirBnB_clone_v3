@@ -18,7 +18,7 @@ class FileStorage:
         __objects (dict): A dictionary of instantiated objects.
     """
 
-    __file_path = "file.json"
+    __file_path = "models/engine/file.json"
     __objects = {}
 
     def all(self, cls=None):
@@ -44,9 +44,11 @@ class FileStorage:
 
     def save(self):
         """Serialize __objects to the JSON file __file_path."""
-        odict = {o: self.__objects[o].to_dict() for o in self.__objects.keys()}
-        with open(self.__file_path, "w", encoding="utf-8") as f:
-            json.dump(odict, f)
+        saved_dict = {}
+        for key, obj in FileStorage.__objects.items():
+            saved_dict[key] = obj.to_dict()
+        with open(FileStorage.__file_path, "w") as file:
+            json.dump(saved_dict,file )
 
     def reload(self):
         """Deserialize the JSON file __file_path to __objects, if it exists."""
@@ -70,3 +72,28 @@ class FileStorage:
     def close(self):
         """Call the reload method."""
         self.reload()
+    def get(self, cls, id):
+        """
+        cls: class
+        id: string representing the object ID
+        Returns the object based on the class and its ID, or None if not found
+        """
+        if cls is None or id is None:
+            return None
+        if type(cls) == str:
+            cls = eval(cls)
+        objs = self.all(cls)
+        for obj in objs.values():
+            if obj.id == id:
+                return obj
+        return None
+    def count(self, cls=None):
+        """
+        cls: class
+        Returns the number of objects in storage matching the given class.
+        If no class is passed, returns the count of all objects in storage.
+        """
+        if cls is None:
+            return len(self.all())
+        else:
+            return len(self.all(cls))

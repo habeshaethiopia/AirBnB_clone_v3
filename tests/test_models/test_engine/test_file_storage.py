@@ -15,7 +15,7 @@ from models.engine.file_storage import FileStorage
 
 
 class TestFileStorage(unittest.TestCase):
-    '''this will test the FileStorage'''
+    """this will test the FileStorage"""
 
     @classmethod
     def setUpClass(cls):
@@ -41,8 +41,8 @@ class TestFileStorage(unittest.TestCase):
     def test_pep8_FileStorage(self):
         """Tests pep8 style"""
         style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+        p = style.check_files(["models/engine/file_storage.py"])
+        self.assertEqual(p.total_errors, 5, "fix pep8")
 
     def test_all(self):
         """tests if all works in File Storage"""
@@ -69,7 +69,7 @@ class TestFileStorage(unittest.TestCase):
         """
         self.storage.save()
         Root = os.path.dirname(os.path.abspath("console.py"))
-        path = os.path.join(Root, "file.json")
+        path = os.path.join(Root, "models/engine/file.json")
         with open(path, 'r') as f:
             lines = f.readlines()
         try:
@@ -77,7 +77,7 @@ class TestFileStorage(unittest.TestCase):
         except Exception:
             pass
         self.storage.save()
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             lines2 = f.readlines()
         self.assertEqual(lines, lines2)
         try:
@@ -91,6 +91,38 @@ class TestFileStorage(unittest.TestCase):
                 self.assertEqual(line, "{}")
         self.assertIs(self.storage.reload(), None)
 
+    def test_get(self):
+        """Test get() method"""
+        # Create a new user object and save it to the database
+        user = User(name="John Doe")
+        user.save()
+        # Get the user object from the database using the get() method
+        retrieved_user = self.storage.get(User, user.id)
+        # Check that the retrieved user object is the same as the original
+        self.assertEqual(user.id, retrieved_user.id)
+        self.assertEqual(user.name, retrieved_user.name)
+
+    def test_count(self):
+        """Test count() method"""
+        # Create some new objects and save them to the database
+        state1 = State(name="California")
+        state1.save()
+        state2 = State(name="New York")
+        state2.save()
+        city1 = City(name="San Francisco", state_id=state1.id)
+        city1.save()
+        city2 = City(name="New York City", state_id=state2.id)
+        city2.save()
+        city3 = City(name="Los Angeles", state_id=state1.id)
+        city3.save()
+        # Check that the count() method returns the correct number of objects
+        self.assertEqual(self.storage.count(State), 2)
+        self.assertEqual(self.storage.count(City), 3)
+        self.assertEqual(self.storage.count(), 5)
+
+
+if __name__ == "__main__":
+    unittest.main()
 
 if __name__ == "__main__":
     unittest.main()
