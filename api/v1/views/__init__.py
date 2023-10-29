@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """the blue print"""
 from flask import Blueprint
 
