@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """Defines the Review class."""
 from models.base_model import Base
 from models.base_model import BaseModel
@@ -6,6 +7,7 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask
 from os import getenv
+
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
@@ -20,9 +22,7 @@ if __name__ == "__main__":
     """host = environment variable HBNB_API_HOST or 0.0.0.0 if not defined
     port = environment variable HBNB_API_PORT or 5000 if not defined
     threaded=True"""
-    host = getenv("HBNB_API_HOST","0.0.0.0")
+    host = getenv("HBNB_API_HOST", "0.0.0.0")
     port = int(getenv("HBNB_API_PORT", 5000))
     thereaded = True
-    app.run(host=host, port=port, threaded=thereaded ,debug=True)
-
-    
+    app.run(host=host, port=port, threaded=thereaded, debug=True)

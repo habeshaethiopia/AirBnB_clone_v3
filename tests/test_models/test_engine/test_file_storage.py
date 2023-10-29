@@ -70,7 +70,7 @@ class TestFileStorage(unittest.TestCase):
         self.storage.save()
         Root = os.path.dirname(os.path.abspath("console.py"))
         path = os.path.join(Root, "models/engine/file.json")
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             lines = f.readlines()
         try:
             os.remove(path)
