@@ -4,12 +4,15 @@ from models.base_model import Base
 from models.base_model import BaseModel
 from models import storage
 from api.v1.views import app_views
-from flask import Flask
+from flask import Flask, jsonify
 from os import getenv
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
-
+@app.errorhandler(404) 
+def notFound():
+    """Return the status of the API."""
+    return jsonify({"error": "Not found"}), 404
 
 @app.teardown_appcontext
 def teardown_db(exception):
