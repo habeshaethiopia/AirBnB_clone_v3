@@ -7,7 +7,9 @@ from os import getenv
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
-@app.errorhandler(404) 
+
+
+@app.errorhandler(404)
 def notFound(error):
     """Return the status of the API."""
     return make_response(jsonify({"error": "Not found"}), 404)
