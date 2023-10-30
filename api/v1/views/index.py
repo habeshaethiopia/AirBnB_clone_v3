@@ -11,13 +11,22 @@ from models.state import State
 from models.user import User
 
 
-@app_views.route("/status", strict_slashes = False)
+@app_views.route("/status", strict_slashes=False)
 def status():
     """Return the status of the API."""
     return jsonify({"status": "OK"})
-@app_views.route("/stats" ,strict_slashes = False)
+
+
+@app_views.route("/stats", strict_slashes=False)
 def stats():
     """Return the stats of the API."""
-    classes = {"amenities": Amenity, "cities": City, "places": Place,
-               "reviews": Review, "states": State, "users": User}
-    return jsonify({key: storage.count(value) for key, value in classes.items()})
+    classes = {
+        "amenities": Amenity,
+        "cities": City,
+        "places": Place,
+        "reviews": Review,
+        "states": State,
+        "users": User,
+    }
+    return jsonify({key: storage.count(value) for
+                    key, value in classes.items()})
