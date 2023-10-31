@@ -5,6 +5,7 @@ from models.base_model import BaseModel
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
+import models
 
 
 class User(BaseModel, Base):
@@ -21,10 +22,30 @@ class User(BaseModel, Base):
         places (sqlalchemy relationship): The User-Place relationship.
         reviews (sqlalchemy relationship): The User-Review relationship.
     """
-    __tablename__ = "users"
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
-    first_name = Column(String(128))
-    last_name = Column(String(128))
-    places = relationship("Place", backref="user", cascade="delete")
-    reviews = relationship("Review", backref="user", cascade="delete")
+
+    if models.storage_t == "db":
+        __tablename__ = "users"
+        email = Column(String(128), nullable=False)
+        password = Column(String(128), nullable=False)
+        first_name = Column(String(128), nullable=True)
+        last_name = Column(String(128), nullable=True)
+        places = relationship("Place", backref="user")
+        reviews = relationship("Review", backref="user")
+    else:
+        email = ""
+        password = ""
+        first_name = ""
+        last_name = ""
+
+    def __setattr__(self, name, value):
+        """Hashes the pass to md5"""
+        import hashlib
+
+        if name == "password":
+            hashpass = hashlib.md5(value.encode())
+            value = hashpass.hexdigest()
+        super.__setattr__(self, name, value)
+
+    def __init__(self, *args, **kwargs):
+        """initializes user"""
+        super().__init__(*args, **kwargs)

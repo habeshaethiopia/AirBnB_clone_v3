@@ -2,6 +2,7 @@
 """Defines the BaseModel class."""
 import models
 from uuid import uuid4
+from os import getenv
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
@@ -23,7 +24,7 @@ class BaseModel:
     id = Column(String(60), primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    
+
     def __init__(self, *args, **kwargs):
         """Initialize a new BaseModel.
 
@@ -57,6 +58,13 @@ class BaseModel:
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
         my_dict.pop("_sa_instance_state", None)
+        my_dict["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in my_dict:
+            del my_dict["_sa_instance_state"]
+        if getenv("HBNB_TYPE_STORAGE") == "db" and "password" in my_dict:
+            del my_dict["password"]
+        return my_dict
+
         return my_dict
 
     def delete(self):
