@@ -19,7 +19,8 @@ def get_reviews(place_id):
     return parent_model(Place, place_id, "reviews")
 
 
-@app_views.route("/reviews/<review_id>", strict_slashes=False, methods=["GET"])
+@app_views.route("/reviews/<review_id>",
+                 strict_slashes=False, methods=["GET"])
 def get_review(review_id):
     """
         GET Request for a review
@@ -27,7 +28,8 @@ def get_review(review_id):
     return get_model(Review, review_id)
 
 
-@app_views.route("/review/<review_id>", methods=["DELETE"] ,strict_slashes=False)
+@app_views.route("/review/<review_id>",
+                 methods=["DELETE"] ,strict_slashes=False)
 def delete_review(review_id):
     """
         DELETE Request for a review
@@ -35,7 +37,8 @@ def delete_review(review_id):
     return delete(Review, review_id)
 
 
-@app_views.route("/place/<place_id>/review", strict_slashes=False,
+@app_views.route("/place/<place_id>/review",
+                 strict_slashes=False,
                  methods=["POST"])
 def post_review(place_id):
     """
@@ -44,7 +47,8 @@ def post_review(place_id):
     return post(Review, Place, place_id, {"text", "user_id"})
 
 
-@app_views.route("/review/<review_id>", methods=["PUT"], strict_slashes=False)
+@app_views.route("/review/<review_id>",
+                 methods=["PUT"], strict_slashes=False)
 def put_review(review_id):
     """
         PUT Request for a review
