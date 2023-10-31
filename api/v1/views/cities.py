@@ -19,7 +19,8 @@ def get_cities(state_id):
     return parent_model(State, state_id, "cities")
 
 
-@app_views.route("/cities/<city_id>", strict_slashes=False, methods=["GET"])
+@app_views.route("/cities/<city_id>",
+                 strict_slashes=False, methods=["GET"])
 def get_city(city_id):
     """
     GET Request for a city

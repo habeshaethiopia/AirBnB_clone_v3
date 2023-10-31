@@ -1,8 +1,11 @@
-from flask import request, abort ,jsonify
+#!/usr/bin/python3
+"""place_aminity view"""
+from flask import request, abort, jsonify
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
 from models.place import Place
+
 
 @app_views.route(
     "/places/<place_id>/amenities/<amenity_id>",
@@ -47,5 +50,4 @@ def handle_request(place_id, amenity_id):
         amenity = amenity(**request.get_json())
         amenity.place_id = place_id
         amenity.save()
-        return jsonify(amenity.to_dict()), 201   
-    
+        return jsonify(amenity.to_dict()), 201
