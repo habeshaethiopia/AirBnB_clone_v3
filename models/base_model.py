@@ -65,8 +65,6 @@ class BaseModel:
             del my_dict["password"]
         return my_dict
 
-        return my_dict
-
     def delete(self):
         """Delete the current instance from storage."""
         models.storage.delete(self)
