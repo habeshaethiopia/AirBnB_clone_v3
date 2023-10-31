@@ -1,12 +1,15 @@
 #!/usr/bin/python3
-"""Testing documentation of a module
+"""Testing file
 """
-from importlib import import_module
-import sys
+import json
+import requests
 
-m_imported = import_module(sys.argv[1])
-
-if m_imported.__doc__ is None:
-    print("No module documentation", end="")
-else:
-    print("OK", end="")
+if __name__ == "__main__":
+    r = requests.get("http://0.0.0.0:5000/api/v1/stats")
+    r_j = r.json()
+    print(r_j.get("amenities", 0))
+    print(r_j.get("cities", 0))
+    print(r_j.get("places", 0))
+    print(r_j.get("reviews", 0))
+    print(r_j.get("states", 0))
+    print(r_j.get("users", 0))
