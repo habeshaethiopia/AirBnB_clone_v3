@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-view for Amenities
+Amenities view
 """
 
 from api.v1.views import *
