@@ -47,17 +47,16 @@ def create_state():
     return jsonify(state.to_dict()), 201
 
 
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
-def update_state(state_id=None):
-    """update a state"""
+@app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
+def update_state(state_id):
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
-    state = request.get_json()
-    if state is None:
+    state_dict = request.get_json()
+    if state_dict is None:
         abort(400, "Not a JSON")
-    for key, value in state.items():
-        if key not in ["id", "created_at", "updated_at"]:
+    for key, value in state_dict.items():
+        if key in ["name"]:
             setattr(state, key, value)
     state.save()
     return jsonify(state.to_dict()), 200
