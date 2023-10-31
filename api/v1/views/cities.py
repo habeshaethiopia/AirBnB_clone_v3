@@ -10,16 +10,12 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route("/states/<state_id>/cities",
-                 strict_slashes=False, methods=["GET"])
+@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["GET"])
 def get_cities(state_id):
     """
     GET Request all cities in a State
     """
-    all_cities = storage.get(City, state_id)
-    if all_cities:
-        return jsonify([p.to_dict() for p in getattr(City, "cities")]), 200
-    abort(404)
+    return parent_model(State, state_id, "cities")
 
 
 @app_views.route("/cities/<city_id>", strict_slashes=False, methods=["GET"])
@@ -38,8 +34,7 @@ def delete_city(city_id):
     return delete(City, city_id)
 
 
-@app_views.route("/states/<state_id>/cities",
-                 strict_slashes=False, methods=["POST"])
+@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["POST"])
 def post_city(state_id):
     """
     POST Request for a city
