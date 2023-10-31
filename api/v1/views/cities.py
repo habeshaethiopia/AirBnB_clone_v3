@@ -10,7 +10,8 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["GET"])
+@app_views.route("/states/<state_id>/cities",
+                 strict_slashes=False, methods=["GET"])
 def get_cities(state_id):
     """
     GET Request all cities in a State
@@ -34,7 +35,8 @@ def delete_city(city_id):
     return delete(City, city_id)
 
 
-@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["POST"])
+@app_views.route("/states/<state_id>/cities",
+                 strict_slashes=False, methods=["POST"])
 def post_city(state_id):
     """
     POST Request for a city
