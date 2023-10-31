@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""places"""
+"""places view module"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
@@ -52,7 +52,7 @@ def delete_place(place_id):
 
 @app_views.route("/cities/<city_id>/places", methods=["POST"])
 def create_place(city_id):
-    """Creates a Place"""
+    """Creates a Place object"""
     if not request.get_json():
         abort(400, "Not a JSON")
     if "user_id" not in request.get_json():
