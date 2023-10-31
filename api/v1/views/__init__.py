@@ -63,9 +63,11 @@ def put(model, my_id, data):
             setattr(obj, key, val)
     obj.save()
     return jsonify(obj.to_dict()), 200
+
+
 def parent_model(p_model, p_id, p_get):
     """
-        GET Request
+    GET Request
     """
     parent = storage.get(p_model, p_id)
     if parent:
@@ -82,4 +84,3 @@ if app_views:
     from api.v1.views.places import *
     from api.v1.views.places_reviews import *
     from api.v1.views.places_amenities import *
-    
