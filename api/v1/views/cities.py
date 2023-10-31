@@ -21,7 +21,6 @@ def get_cities(state_id):
     abort(404)
 
 
-
 @app_views.route("/cities/<city_id>", strict_slashes=False, methods=["GET"])
 def get_city(city_id):
     """
