@@ -1,3 +1,4 @@
+"""the init files"""
 from flask import Blueprint, request, jsonify, abort
 from models.state import State
 from models.amenity import Amenity
@@ -62,6 +63,14 @@ def put(model, my_id, data):
             setattr(obj, key, val)
     obj.save()
     return jsonify(obj.to_dict()), 200
+def parent_model(p_model, p_id, p_get):
+    """
+        GET Request
+    """
+    parent = storage.get(p_model, p_id)
+    if parent:
+        return jsonify([p.to_dict() for p in getattr(parent, p_get)]), 200
+    abort(404)
 
 
 if app_views:
@@ -72,3 +81,5 @@ if app_views:
     from api.v1.views.users import *
     from api.v1.views.places import *
     from api.v1.views.places_reviews import *
+    from api.v1.views.places_amenities import *
+    

@@ -25,6 +25,7 @@ def teardown_db(exception):
 
 
 if __name__ == "__main__":
+    """if you run from it"""
     host = getenv("HBNB_API_HOST")
     port = getenv("HBNB_API_PORT")
     if not host:
