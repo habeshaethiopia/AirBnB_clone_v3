@@ -9,10 +9,6 @@ from models.review import Review
 
 app_views = Blueprint("app_views", __name__, url_prefix="/api/v1")
 
-if app_views:
-    from api.v1.views.index import *
-    from api.v1.views.states import *
-
 
 def get_model(model, my_id):
     """Return the model to be used."""
@@ -66,3 +62,8 @@ def put(model, my_id, data):
             setattr(obj, key, val)
     obj.save()
     return jsonify(obj.to_dict()), 200
+
+
+if app_views:
+    from api.v1.views.index import *
+    from api.v1.views.states import *
